@@ -104,6 +104,19 @@ app.put(
   }
 );
 
+app.patch(
+  "/todos/:id/done",
+  checksExistsUserAccount,
+  checkExistsTodo,
+  (request, response) => {
+    const { selectedTodo } = request;
+
+    selectedTodo.done = true;
+
+    return response.send(selectedTodo);
+  }
+);
+
 app.delete(
   "/todos/:id",
   checksExistsUserAccount,
