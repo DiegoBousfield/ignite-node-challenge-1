@@ -89,16 +89,17 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   return response.status(201).send(newTodo);
 });
 
-app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+app.delete(
+  "/todos/:id",
+  checksExistsUserAccount,
+  checkExistsTodo,
+  (request, response) => {
+    const { user, selectedTodo } = request;
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+    user.todos = user.todos.filter((todo) => todo.id !== selectedTodo.id);
 
-app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+    return response.status(204).send();
+  }
+);
 
 module.exports = app;
