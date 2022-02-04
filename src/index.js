@@ -89,6 +89,21 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   return response.status(201).send(newTodo);
 });
 
+app.put(
+  "/todos/:id",
+  checksExistsUserAccount,
+  checkExistsTodo,
+  (request, response) => {
+    const { selectedTodo } = request;
+    const { title, deadline } = request.body;
+
+    selectedTodo.title = title;
+    selectedTodo.deadline = new Date(deadline);
+
+    return response.status(201).send(selectedTodo);
+  }
+);
+
 app.delete(
   "/todos/:id",
   checksExistsUserAccount,
