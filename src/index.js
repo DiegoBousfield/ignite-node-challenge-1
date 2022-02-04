@@ -11,7 +11,36 @@ app.use(express.json());
 // const users = [];
 
 function checksExistsUserAccount(request, response, next) {
-  // Complete aqui
+  const { username } = request.headers;
+
+  const userExists = users.find((user) => user.username === username);
+
+  if (!userExists) {
+    return response.status(404).send({
+      error: "Username not found",
+    });
+  }
+
+  request.user = userExists;
+
+  next();
+}
+
+function checkExistsTodo(request, response, next) {
+  const { id } = request.params;
+  const { user } = request;
+
+  const todoExists = user.todos.find((todo) => todo.id === id);
+
+  if (!todoExists) {
+    return response.status(404).send({
+      error: "Todo not found",
+    });
+  }
+
+  request.selectedTodo = todoExists;
+
+  next();
 }
 
 app.post("/users", (request, response) => {
