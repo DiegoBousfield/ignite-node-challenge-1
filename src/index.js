@@ -66,8 +66,10 @@ app.post("/users", (request, response) => {
   response.status(201).send(user);
 });
 
-app.get('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+app.get("/todos", checksExistsUserAccount, (request, response) => {
+  const { user } = request;
+
+  return response.status(200).send(user.todos);
 });
 
 app.post("/todos", checksExistsUserAccount, (request, response) => {
